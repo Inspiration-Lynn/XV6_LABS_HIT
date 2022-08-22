@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "*.cc": "cpp",
-        "stat.h": "c"
+        "stat.h": "c",
+        "user.h": "c"
     }
 }
