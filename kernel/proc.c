@@ -305,7 +305,7 @@ fork(void)
 
   //copy trace mask
   np->mask = p->mask;
-  
+
   safestrcpy(np->name, p->name, sizeof(p->name));
 
   pid = np->pid;
@@ -658,4 +658,24 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+uint64 count_process(void)
+{
+  static char *states[] = {
+      [UNUSED] "unused",
+      [SLEEPING] "sleep ",
+      [RUNNABLE] "runble",
+      [RUNNING] "run   ",
+      [ZOMBIE] "zombie"};
+  struct proc *p;
+  uint64 num = 0;
+  for (p = proc; p < &proc[NPROC]; p++)
+  {
+    if (p->state == UNUSED)
+      continue;
+    if (p->state >= 0 && p->state < NELEM(states) && states[p->state])
+      ++num;
+  }
+  return num;
 }

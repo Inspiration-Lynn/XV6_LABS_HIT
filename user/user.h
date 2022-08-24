@@ -2,7 +2,7 @@
  * @Author: Zhiyuan Cao
  * @Date: 2022-08-24 09:59:06
  * @LastEditors: Zhiyuan Cao
- * @LastEditTime: 2022-08-24 10:13:55
+ * @LastEditTime: 2022-08-24 15:16:56
  * @FilePath: /xv6-labs-2021/user/user.h
  * @Description:
  *
@@ -10,6 +10,7 @@
  */
 struct stat;
 struct rtcdate;
+struct sysinfo;
 
 // system calls
 int fork(void);
@@ -34,6 +35,7 @@ char *sbrk(int);
 int sleep(int);
 int uptime(void);
 int trace(int);
+int sysinfo(struct sysinfo *);
 
 // ulib.c
 int stat(const char *, struct stat *);
