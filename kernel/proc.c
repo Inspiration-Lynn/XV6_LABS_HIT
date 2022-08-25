@@ -110,7 +110,7 @@ allocproc(void)
     acquire(&p->lock);
     if(p->state == UNUSED) {
       // set mask to zero while init a process
-      p->mask = 0;
+      // p->mask = 0;
       goto found;
     } else {
       release(&p->lock);
