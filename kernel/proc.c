@@ -144,6 +144,7 @@ found:
   return p;
 }
 
+
 // free a proc structure and the data hanging from it,
 // including user pages.
 // p->lock must be held.
@@ -273,7 +274,7 @@ int
 fork(void)
 {
   int i, pid;
-  struct proc *np;
+  struct proc *np;  // child process
   struct proc *p = myproc();
 
   // Allocate process.
@@ -288,6 +289,9 @@ fork(void)
     return -1;
   }
   np->sz = p->sz;
+
+  // copy trace mask
+  np->trace_mask = p->trace_mask;
 
   // copy saved user registers.
   *(np->trapframe) = *(p->trapframe);
@@ -653,4 +657,18 @@ procdump(void)
     printf("%d %s %s", p->pid, state, p->name);
     printf("\n");
   }
+}
+
+uint64
+processAmounts(void)
+{
+  struct proc *p;
+  uint64 amount = 0;
+
+  for(p = proc; p < &proc[NPROC]; p++) {
+    if(p->state != UNUSED) 
+      amount++;
+  }
+
+  return amount;
 }
