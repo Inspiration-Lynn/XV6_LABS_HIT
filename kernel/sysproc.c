@@ -104,7 +104,7 @@ int sys_pgaccess(void)
     {
       mask |= 1 << i;
     }
-    *p_pte = (*p_pte) & ~(PTE_A);
+    *p_pte &= ~(PTE_A);
   }
 
   // return mask
