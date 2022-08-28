@@ -75,13 +75,48 @@ sys_sleep(void)
   return 0;
 }
 
+int
+page_access(uint64 base, int len, uint64 mask_va)
+{
+  const int max_len = 32;
+  int i = 0;
+  int abits = 0;
+  pagetable_t pagetable = myproc()->pagetable; // get current process's pagetable
+  
+  if(len > max_len) {
+    printf("Page number to be checked is more than max_len: 32\n");
+    return -1;
+  }
+  
+  for(; i<len; i++) {
+    pte_t* pte = walk(pagetable, (base + PGSIZE*i), 0);
+    if((*pte & PTE_A) != 0) {   // this page is currently accessed
+      abits |= (1 << i);
+    }
+    *pte &= (~PTE_A);   // remove this access
+  }
+
+  copyout(pagetable, mask_va, (char*)&abits, sizeof(int));
+
+  return 0;
+}
 
 #ifdef LAB_PGTBL
 int
 sys_pgaccess(void)
 {
   // lab pgtbl: your code here.
-  return 0;
+  uint64 base;
+  int len;
+  uint64 mask_va;
+  if(argaddr(0, &base) < 0)
+    return -1;
+  if(argint(1, &len) < 0)
+    return -1;
+  if(argaddr(2, &mask_va) < 0)
+    return -1;
+
+  return page_access(base, len, mask_va);
 }
 #endif
 
@@ -107,3 +142,6 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+
+
