@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "*.cc": "cpp",
-        "proc.h": "c"
+        "proc.h": "c",
+        "riscv.h": "c",
+        "defs.h": "c"
     }
 }
