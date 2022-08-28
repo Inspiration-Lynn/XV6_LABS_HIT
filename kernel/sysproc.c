@@ -99,7 +99,7 @@ int sys_pgaccess(void)
   pte_t *p_pte;
   for (int i = 0; i < len; ++i)
   {
-    p_pte = walk(p->pagetable, base + i * PGSIZE, 0);
+    p_pte = walk(p->pagetable, bas e + i * PGSIZE, 0);
     if ((*p_pte) & PTE_A)
     {
       mask |= 1 << i;
