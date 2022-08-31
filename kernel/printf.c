@@ -140,10 +140,10 @@ void backtrace()
 {
   uint64 fp = r_fp();
   uint64 PGUP = PGROUNDUP(fp);
-  uint64 PGDOWN = PGROUNDUP(fp);
+  uint64 PGDOWN = PGROUNDDOWN(fp);
   while (1)
   {
-    if(fp>=PGDOWN && fp<=PGUP)
+    if(!(fp>PGDOWN && fp<PGUP))
     {
       return;
     }
