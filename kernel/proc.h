@@ -108,4 +108,6 @@ struct proc {
   int ticks;                   // alarm ticks
   int ticks_counter;           // how many ticks have passed since the last call
   uint64 handler;              // point to alarm handler func
+  uint handlerlock;
+  struct trapframe *alarm_trapframe; // data page for trampoline.S
 };

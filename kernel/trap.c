@@ -84,13 +84,18 @@ void usertrap(void)
     // check alarm status
     if (p->ticks)
     {
-      printf("p->ticks_counter=%d\n", p->ticks_counter);
+      // printf("p->ticks_counter=%d\n", p->ticks_counter);
       p->ticks_counter++;
       if (p->ticks_counter == p->ticks)
       {
-        printf("run handler!\n");
+        if(!p->handlerlock)
+        {
+          p->handlerlock = 1;
+          printf("run handler!\n");
+          memmove(p->alarm_trapframe, p->trapframe, sizeof(struct trapframe));
+          p->trapframe->epc = p->handler;
+        }
         p->ticks_counter = 0;
-        p->trapframe->epc =p->handler;
       }
     }
     yield();

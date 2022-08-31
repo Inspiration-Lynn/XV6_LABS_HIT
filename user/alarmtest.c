@@ -59,8 +59,8 @@ void test0()
   {
     printf("\ntest0 failed: the kernel never called the alarm handler\n");
   }
-  // just do test0
-  exit(0);
+  // // just do test0
+  // exit(0);
 }
 
 void __attribute__((noinline)) foo(int i, int *j)

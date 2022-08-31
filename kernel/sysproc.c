@@ -115,12 +115,14 @@ uint64 sys_sigalarm(void)
   if (!ticks)
   {
     p->ticks_counter = 0;
-    
   }
   return 0;
 }
 
 uint64 sys_sigreturn(void)
 {
+  struct proc *p = myproc();
+  memmove(p->trapframe, p->alarm_trapframe, sizeof(struct trapframe));
+  p->handlerlock = 0;
   return 0;
 }
