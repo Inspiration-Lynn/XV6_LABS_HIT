@@ -77,8 +77,21 @@ usertrap(void)
     exit(-1);
 
   // give up the CPU if this is a timer interrupt.
-  if(which_dev == 2)
+  if(which_dev == 2) {
     yield();
+    if (p->alarm_tick != 0) {   // sigalarm invoke
+      
+      (p->tick_left)--;
+      // printf("tick_left: %d\n", p->tick_left);
+      if (p->tick_left == 0) {   // enter handler
+        // printf("sigalarm invoke\n");
+        // copy trapframe to sigalarm_trapframe, to store 
+        memmove(p->sigalarm_trapframe, p->trapframe, PGSIZE);
+        p->trapframe->epc = p->alarm_handler;
+        p->in_handler = 1;
+      }
+    }
+  }
 
   usertrapret();
 }
